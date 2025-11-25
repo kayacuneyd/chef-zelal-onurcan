@@ -67,44 +67,54 @@
         {/if}
       </div>
     </div>
+
+    <!-- Mobile trigger -->
+    <button 
+      class="md:hidden relative z-[60] focus:outline-none p-2 rounded-full border shadow-sm transition-colors {useTransparentTheme ? 'bg-emerald-900/80 border-sage-50/50 text-sage-50' : 'bg-sage-50 border-emerald-900/40 text-emerald-900'}" 
+      on:click={toggleMobileMenu}
+      aria-label="Toggle Menu"
+    >
+      <div class="w-6 h-5 flex flex-col justify-between">
+        <span class="block w-full h-0.5 transition-all duration-300 bg-current {isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''}"></span>
+        <span class="block w-full h-0.5 transition-all duration-300 bg-current {isMobileMenuOpen ? 'opacity-0' : ''}"></span>
+        <span class="block w-full h-0.5 transition-all duration-300 bg-current {isMobileMenuOpen ? '-rotate-45 -translate-y-2.5' : ''}"></span>
+      </div>
+    </button>
   </div>
 </nav>
 
-<!-- Mobile -->
-<button 
-  class="md:hidden fixed top-5 right-6 z-[60] relative focus:outline-none p-2 rounded-full border shadow-sm transition-colors {useTransparentTheme ? 'bg-emerald-900/80 border-sage-50/50 text-sage-50' : 'bg-sage-50 border-emerald-900/40 text-emerald-900'}" 
-  on:click={toggleMobileMenu}
-  aria-label="Toggle Menu"
->
-  <div class="w-6 h-5 flex flex-col justify-between">
-    <span class="block w-full h-0.5 transition-all duration-300 bg-current {isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''}"></span>
-    <span class="block w-full h-0.5 transition-all duration-300 bg-current {isMobileMenuOpen ? 'opacity-0' : ''}"></span>
-    <span class="block w-full h-0.5 transition-all duration-300 bg-current {isMobileMenuOpen ? '-rotate-45 -translate-y-2.5' : ''}"></span>
-  </div>
-</button>
-
+<!-- Mobile Menu Panel -->
 {#if isMobileMenuOpen}
   <div 
     transition:fade={{ duration: 200 }}
-    class="fixed inset-0 bg-sage-50 z-40 flex flex-col items-center justify-center md:hidden"
+    class="fixed inset-0 z-40 md:hidden bg-sage-50/98 backdrop-blur-sm"
   >
-    <div class="flex flex-col items-center space-y-8 text-center">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-sage-500/30">
+      <a href="/" class="text-3xl font-script text-emerald-900" on:click={toggleMobileMenu}>Chef Zelal</a>
+      <button
+        class="p-2 rounded-full border border-emerald-900/40 text-emerald-900"
+        on:click={toggleMobileMenu}
+        aria-label="Close Menu"
+      >
+        ✕
+      </button>
+    </div>
+    <div class="flex flex-col items-center space-y-6 py-8 px-6 text-center">
       <a href="/about" class="font-serif text-2xl text-emerald-900 hover:text-terracotta-600" on:click={toggleMobileMenu}>{t.about}</a>
       <a href="/services" class="font-serif text-2xl text-emerald-900 hover:text-terracotta-600" on:click={toggleMobileMenu}>{t.services}</a>
       <a href="/menu" class="font-serif text-2xl text-emerald-900 hover:text-terracotta-600" on:click={toggleMobileMenu}>{t.menu}</a>
       <a href="/journal" class="font-serif text-2xl text-emerald-900 hover:text-terracotta-600" on:click={toggleMobileMenu}>{t.journal}</a>
       <a href="/contact" class="font-serif text-2xl text-emerald-900 hover:text-terracotta-600" on:click={toggleMobileMenu}>{t.contact}</a>
-      
-      <div class="flex space-x-6 mt-8 pt-8 border-t border-emerald-900/10 w-48 justify-center">
-        {#each locales as lang}
-          <button 
-            on:click={() => setLang(lang.code)}
-            class="text-3xl grayscale hover:grayscale-0 transition-all {$currentLang === lang.code ? 'grayscale-0 scale-110' : 'opacity-50'}"
-          >
-            {lang.flag}
-          </button>
-        {/each}
-      </div>
+    </div>
+    <div class="flex items-center justify-center gap-6 pb-10 border-t border-emerald-900/10 mx-10 pt-6">
+      {#each locales as lang}
+        <button 
+          on:click={() => setLang(lang.code)}
+          class="text-3xl grayscale hover:grayscale-0 transition-all {$currentLang === lang.code ? 'grayscale-0 scale-110' : 'opacity-50'}"
+        >
+          {lang.flag}
+        </button>
+      {/each}
     </div>
   </div>
 {/if}
