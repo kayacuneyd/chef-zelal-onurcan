@@ -72,7 +72,7 @@
 
 <!-- Mobile -->
 <button 
-  class="md:hidden fixed top-5 right-6 z-50 relative focus:outline-none p-2 {useTransparentTheme ? 'text-sage-50' : 'text-emerald-900'}" 
+  class="md:hidden fixed top-5 right-6 z-[60] relative focus:outline-none p-2 rounded-full border shadow-sm transition-colors {useTransparentTheme ? 'bg-emerald-900/80 border-sage-50/50 text-sage-50' : 'bg-sage-50 border-emerald-900/40 text-emerald-900'}" 
   on:click={toggleMobileMenu}
   aria-label="Toggle Menu"
 >
