@@ -1,23 +1,24 @@
 <script lang="ts">
   import { fade, fly } from 'svelte/transition';
   import { services } from '$lib/data';
+  import { currentLang, translations } from '$lib/stores';
+
+  $: t = translations[$currentLang].services;
+  $: localizedServices = services[$currentLang];
 </script>
 
 <div class="min-h-screen pt-24 pb-20 bg-white">
   <!-- Header -->
   <div in:fly={{ y: -20, duration: 800 }} class="text-center mb-20 px-6">
-    <h1 class="font-serif text-4xl md:text-6xl text-emerald-900 mb-6">
-      Culinary Services
-    </h1>
+    <h1 class="font-serif text-4xl md:text-6xl text-emerald-900 mb-6">{t.heading}</h1>
     <p class="text-anthracite-800 text-lg max-w-2xl mx-auto font-sans">
-      Beyond the plate. A comprehensive suite of services designed for individuals, 
-      businesses, and those seeking a deeper connection with food.
+      {t.subheading}
     </p>
   </div>
 
   <!-- Services List -->
   <div class="container mx-auto px-6">
-    {#each services as service, i}
+    {#each localizedServices as service, i}
       <div 
         class="flex flex-col lg:flex-row items-center gap-12 mb-32" 
         in:fade={{ duration: 800, delay: i * 100 }}
@@ -47,7 +48,7 @@
             href="/contact" 
             class="inline-block bg-emerald-900 text-white px-8 py-3 rounded-full font-serif hover:bg-emerald-800 transition-colors shadow-lg"
           >
-            Book This Service
+            {t.cta}
           </a>
         </div>
       </div>

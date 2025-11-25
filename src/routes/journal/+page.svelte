@@ -1,25 +1,32 @@
 <script lang="ts">
   import { fade, fly } from 'svelte/transition';
   import { blogPosts } from '$lib/data';
+  import { currentLang, translations } from '$lib/stores';
 
-  const formatDate = (value: string) =>
-    new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(new Date(value));
+  const formatDate = (value: string, locale: string) =>
+    new Intl.DateTimeFormat(locale, { month: 'long', day: 'numeric', year: 'numeric' }).format(new Date(value));
+
+  $: t = translations[$currentLang].journal;
+  $: posts = blogPosts[$currentLang];
 </script>
 
 <div class="min-h-screen pt-24 pb-20 bg-sage-50">
   <!-- Header -->
   <div in:fly={{ y: -20, duration: 800 }} class="text-center mb-20 px-6">
-    <h1 class="font-serif text-4xl md:text-6xl text-emerald-900 mb-6">
-      The Journal
-    </h1>
+    <h1 class="font-serif text-4xl md:text-6xl text-emerald-900 mb-6">{t.heading}</h1>
     <p class="text-anthracite-800 text-lg max-w-2xl mx-auto font-sans italic">
-      Recipes, stories, and notes from the kitchen.
+      {t.subheading}
     </p>
   </div>
 
   <!-- Grid -->
   <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-    {#each blogPosts as post, i}
+    {#if posts.length === 0}
+      <div class="rounded-lg border border-sage-500/40 bg-white/80 p-6 text-center font-sans text-anthracite-800/80 col-span-full">
+        {t.empty}
+      </div>
+    {:else}
+    {#each posts as post, i}
       <article 
         class="group cursor-pointer flex flex-col h-full"
         in:fade={{ duration: 800, delay: i * 150 }}
@@ -37,7 +44,7 @@
         <!-- Content -->
         <div class="flex-grow flex flex-col">
           <span class="font-sans text-xs text-terracotta-600 uppercase tracking-widest mb-3">
-            {formatDate(post.date)}
+            {formatDate(post.date, $currentLang)}
           </span>
           <h2 class="font-serif text-2xl text-emerald-900 mb-3 group-hover:text-terracotta-600 transition-colors">
             {post.title}
@@ -49,7 +56,7 @@
             href={`/journal/${post.slug}`} 
             class="inline-flex items-center font-serif text-emerald-900 hover:text-terracotta-600 transition-colors mt-auto"
           >
-            Read Story
+            {t.read}
             <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
@@ -57,5 +64,6 @@
         </div>
       </article>
     {/each}
+    {/if}
   </div>
 </div>
