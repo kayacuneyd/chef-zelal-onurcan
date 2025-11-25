@@ -87,7 +87,7 @@
 {#if isMobileMenuOpen}
   <div 
     transition:fade={{ duration: 200 }}
-    class="fixed inset-0 z-40 md:hidden bg-sage-50/98 backdrop-blur-sm"
+    class="fixed inset-0 z-40 md:hidden bg-sage-50/95 backdrop-blur-md"
   >
     <div class="flex items-center justify-between px-6 py-4 border-b border-sage-500/30">
       <a href="/" class="text-3xl font-script text-emerald-900" on:click={toggleMobileMenu}>Chef Zelal</a>
